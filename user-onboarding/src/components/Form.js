@@ -45,10 +45,10 @@ const OnboardingForm = ({ values, errors, touched, isSubmitting }) => {
         />
       </div>
 
-      <div>
+      
       <label>
         <p>Terms of Service</p>
-      </label>
+      
       {touched.tos && errors.tos && <p>{errors.tos}</p>}
         <Field 
           
@@ -56,7 +56,7 @@ const OnboardingForm = ({ values, errors, touched, isSubmitting }) => {
           name="tos" 
           checked={values.tos}
         />
-      </div>
+      </label>
       
       
       <button disabled={isSubmitting}>
@@ -77,7 +77,6 @@ const FormikOnboardingForm = withFormik({
       tos: false,
     };
   },
-
 
   validationSchema: Yup.object().shape({
 
@@ -103,22 +102,23 @@ const FormikOnboardingForm = withFormik({
   }),
 
 
-  handleSubmit(values, { resetForm, setErrors, setSubmitting }) {
-    if (values.email === "alreadytaken@atb.dev") {
-      setErrors({ email: "That email is already taken" });
-    } else {
-      axios
-        .post("https://reqres.in/api/users", values)
-        .then(res => {
-          console.log(res); 
-          resetForm();
-          setSubmitting(false);
-        })
-        .catch(err => {
-          console.log(err); 
-          setSubmitting(false);
-        });
-    }
+  handleSubmit(values, { resetForm, setSubmitting }) {
+    
+    axios
+      .post("https://reqres.in/api/users", values)
+      .then(res => {
+        window.alert(
+          'Thanks ' + res.data.firstName + ' your form has been submitted'
+        ) 
+        resetForm();
+        setSubmitting(false);
+        
+      })
+
+      .catch(err => {
+        console.log(err); 
+        setSubmitting(false);
+      });
   }
 
 
